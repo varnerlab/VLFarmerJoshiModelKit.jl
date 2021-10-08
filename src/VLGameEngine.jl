@@ -1,3 +1,5 @@
+
+
 function run(world::VLGameWorld)::VLMarketSimulationResult
 
     try
@@ -10,7 +12,7 @@ function run(world::VLGameWorld)::VLMarketSimulationResult
         (number_of_iterations, number_of_assets) = size(asset_price_array)
         
         # initialize simulation data structures -
-        agent_desired_orders_array = Array{VLOrderModel,2}(undef, number_of_agents, number_of_assets)
+        agent_desired_orders_array = Array{VLOrderModel,1}()
 
         # main game loop -
         for iteration_index = 1:number_of_iterations
@@ -25,7 +27,8 @@ function run(world::VLGameWorld)::VLMarketSimulationResult
                 # desired_position_size_array: number of assets x 1 array 
                 tmp_desired_order_array = agent_model.agent_trade_logic(agent_model, asset_price_array)
                 for asset_index = 1:number_of_assets
-                    agent_desired_orders_array[agent_index, asset_index] =  tmp_desired_order_array[asset_index]
+                    tmp_order = tmp_desired_order_array[asset_index]
+                    push!(agent_desired_orders_array, tmp_order)
                 end
             end
 

@@ -1,0 +1,1 @@
+Base.:(==)(a1::VLAgentModel, a2::VLAgentModel) = (a1.agent_id == a2.agent_id)

@@ -1,5 +1,5 @@
-function _default_exchange_logic(iteration_index, game_world::VLGameWorld, 
-    order_array::Array{VLOrderModel}, current_asset_price_array::Array{Float64,2})::Array{Float64,2}
+function _default_exchange_logic(iteration_index::Int64, game_world::VLGameWorld, 
+    order_array::Array{VLOrderModel,1}, current_asset_price_array::Array{Float64,2})::Array{Float64,2}
 
     try
 
@@ -11,10 +11,23 @@ function _default_exchange_logic(iteration_index, game_world::VLGameWorld,
         order_book = Array{Int64,2}(undef, number_of_assets, number_of_orders)
 
         # build agent table -
-        agent_table = Dict{UUID,VLAbstractAgentModel}()
+        agent_table = Dict{UUID,VLAgentModel}()
         for agent in agent_array
             agent_id = agent.agent_id
             agent_table[agent_id] = agent
+        end
+
+        # build order lookup table -
+        order_agent_lookup_table = Dict{UUID,VLAgentModel}()
+        for order in order_array
+            
+            # get info about the order -
+            order_id = order.order_id           # get the order id -
+            agent_id = order.agent_id           # get the id of the agent who entered this order -
+            agent_model = agent_table[agent_id] # get the model for the agent who entered this order -
+            
+            # link the order_id and the agent model -
+            order_agent_lookup_table[order_id] = agent_model
         end
 
         # let process the orders - first, build the order book 
@@ -46,7 +59,16 @@ function _default_exchange_logic(iteration_index, game_world::VLGameWorld,
             new_asset_price_array[iteration_index, asset_index] = current_price + (1 / λ[asset_index]) * total_order_quantity[asset_index]
         end
 
-        
+        # default: assume all orders have been filled, update agents 
+        for order_model in order_array
+            
+            order_id = order_model.order_id                         # get the order id -
+            agent_model = order_agent_lookup_table[order_id]        # get the agent who made this order -
+            
+            # update -
+            agent_model.agent_update_logic(agent_model, order_model, new_asset_price_array, iteration_index)
+
+        end
 
         # return -
         return new_asset_price_array

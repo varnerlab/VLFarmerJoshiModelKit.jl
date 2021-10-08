@@ -21,6 +21,35 @@ number_of_agents = 10
 # how many assets?
 number_of_assets = 10
 
+# ╔═╡ 95345a88-747e-4d33-96d2-0d17b81d4518
+mutable struct Test
+	a::Int64
+	update::Function
+	Test() = new()
+end
+
+# ╔═╡ d11be206-e79b-47de-a05b-d654693eb7f3
+function _update!(obj::Test, value::Int64)
+	obj.a = value
+end
+
+# ╔═╡ 71255cb5-c21d-4ed2-ae10-a430af4b4511
+begin
+	
+	# build test -
+	test_obj = Test()
+	test_obj.a = 10
+	test_obj.update = _update!
+
+	test_obj
+end
+
+# ╔═╡ c445c71a-689f-4449-ba57-82abdf755218
+test_obj.update(test_obj,200)
+
+# ╔═╡ ce08a9c6-8638-482c-8f34-9f7ad91ae364
+test_obj
+
 # ╔═╡ bcebefc3-d63e-4340-a944-63fe273356b9
 function ingredients(path::String; module_name::Symbol = :model)
 	
@@ -141,6 +170,11 @@ version = "1.0.2"
 # ╠═8b63e2b6-25e1-40cf-beb6-dc74d930806e
 # ╠═b57bc814-c397-450e-97c9-e3a0a84c03f7
 # ╠═db7b8487-2467-47ad-80b0-413574d02a38
+# ╠═95345a88-747e-4d33-96d2-0d17b81d4518
+# ╠═d11be206-e79b-47de-a05b-d654693eb7f3
+# ╠═71255cb5-c21d-4ed2-ae10-a430af4b4511
+# ╠═c445c71a-689f-4449-ba57-82abdf755218
+# ╠═ce08a9c6-8638-482c-8f34-9f7ad91ae364
 # ╟─bcebefc3-d63e-4340-a944-63fe273356b9
 # ╟─6c53c6b9-f870-4fce-8302-093c9ae74e0f
 # ╟─00000000-0000-0000-0000-000000000001
