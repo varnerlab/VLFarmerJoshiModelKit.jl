@@ -1,0 +1,15 @@
+main {
+    max-width: 1200px;
+    margin: auto;
+	width: 90%;
+    font-family: "Roboto, monospace";
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+.H1 {
+    padding: 0px 30px;
+}

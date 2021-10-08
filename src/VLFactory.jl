@@ -2,14 +2,24 @@ function build(type::Type{VLAgentModel}; kwargs...)
 
     try
 
+        # check - is kwargs empty?
+        if (isempty(kwargs) == true)
+            throw(ArgumentError("missing keyword arguments. Check documentation for required keyword arguments"))
+        end
+
+
         # get the args as a dictionary -
         args = Dict(kwargs)
-        trade_logic = args[:trade_logic]
-        update_logic = args[:update_logic]
-        wealth = args[:wealth]
+
+        # 
+
+
+        trade_logic = args[:agent_trade_logic]
+        update_logic = args[:agent_update_logic]
+        wealth = args[:agent_wealth]
         number_of_iterations = args[:number_of_iterations]
         number_of_assets = args[:number_of_assets]
-        initial_position_array = args[:initial_position_array]
+        initial_position_array = args[:agent_position_array]
 
         # build a blank agent -
         agent_model = VLAgentModel()
@@ -42,9 +52,11 @@ function build(type::Type{VLGameWorld}; kwargs...)
 
         # get the args as a dictionary -
         args = Dict(kwargs)
-        number_of_iterations = args[:number_of_iterations]
-        number_of_assets = args[:number_of_assets]
-        exchange_logic = args[:exchange_logic]
+
+        # check for defaults -
+        number_of_iterations = get(args, :number_of_iterations, 100)
+        number_of_assets = get(args, :number_of_assets, 1)
+        exchange_logic = get(args, :market_exchange_logic, _default_exchange_logic)
         
         # Create a blank game world -
         game_world = VLGameWorld()

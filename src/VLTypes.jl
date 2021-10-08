@@ -21,6 +21,9 @@ mutable struct VLGameWorld <: VLAbstractGameWorld
     agent_array::Array{VLAgentModel,1}
     number_of_iterations::Int64
     exchange_logic::Function
+
+    VLGameWorld() = new()
+
 end
 
 struct VLOrderModel <: VLAbstractOrderModel
