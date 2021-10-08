@@ -2,29 +2,21 @@ function build(type::Type{VLAgentModel}; kwargs...)
 
     try
 
-        # check - is kwargs empty?
-        if (isempty(kwargs) == true)
-            throw(ArgumentError("missing keyword arguments. Check documentation for required keyword arguments"))
-        end
-
-
         # get the args as a dictionary -
         args = Dict(kwargs)
 
-        # 
-
-
-        trade_logic = args[:agent_trade_logic]
-        update_logic = args[:agent_update_logic]
-        wealth = args[:agent_wealth]
-        number_of_iterations = args[:number_of_iterations]
-        number_of_assets = args[:number_of_assets]
-        initial_position_array = args[:agent_position_array]
+        # setup default values for the key words args - 
+        agent_trade_logic = get(args, :agent_trade_logic, _default_agent_trade_logic)
+        agent_update_logic = get(args, :agent_update_logic, _default_agent_update_logic)
+        number_of_iterations = get(args, :number_of_iterations, 100)
+        number_of_assets = get(args, :number_of_assets, 1)
+        wealth = get(args, :agent_wealth, 1000.0)
+        initial_position_array = get(args, :agent_position_array, zeros(number_of_assets))
 
         # build a blank agent -
         agent_model = VLAgentModel()
-        agent_model.agent_trade_logic = trade_logic
-        agent_model.agent_update_logic = update_logic
+        agent_model.agent_trade_logic = agent_trade_logic
+        agent_model.agent_update_logic = agent_update_logic
         agent_model.agent_id = uuid4()
         
         # what is the agents initial wealth -

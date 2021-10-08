@@ -9,8 +9,17 @@ begin
 	using Parameters
 end
 
-# ╔═╡ b57bc814-c397-450e-97c9-e3a0a84c03f7
+# ╔═╡ 1c7e58cb-e4e9-49af-b782-b107e61196d7
+# how many iterations?
+number_of_iterations = 1000
 
+# ╔═╡ a0bb564e-5c10-4d0e-8685-b4d5af6bbed2
+# how many agents?
+number_of_agents = 10
+
+# ╔═╡ 624d2477-c19a-49c8-888d-23a580b63842
+# how many assets?
+number_of_assets = 10
 
 # ╔═╡ bcebefc3-d63e-4340-a944-63fe273356b9
 function ingredients(path::String; module_name::Symbol = :model)
@@ -48,7 +57,25 @@ begin
 end
 
 # ╔═╡ 8b63e2b6-25e1-40cf-beb6-dc74d930806e
-game_world = M.build(VLGameWorld)
+# setup the game world -
+game_world = M.build(VLGameWorld; number_of_iterations=number_of_iterations, number_of_assets=number_of_assets)
+
+# ╔═╡ b57bc814-c397-450e-97c9-e3a0a84c03f7
+# setup the agents -
+begin
+	
+	my_agent_array = Array{VLAgentModel,1}()
+	for agent_index = 1:number_of_agents
+		
+		# let's use the defaults for the various agent settings -
+		agent_model = M.build(VLAgentModel; number_of_iterations=number_of_iterations, number_of_assets=number_of_assets)
+	
+		# grab -
+		push!(my_agent_array, agent_model)
+	end
+	
+	my_agent_array
+end
 
 # ╔═╡ 6c53c6b9-f870-4fce-8302-093c9ae74e0f
 html"""
@@ -104,9 +131,12 @@ version = "1.0.2"
 # ╔═╡ Cell order:
 # ╠═f63bf213-75fd-4722-bc7a-8cded43bc53a
 # ╠═31e84c23-0f9a-42f1-ab34-00def17db241
+# ╠═1c7e58cb-e4e9-49af-b782-b107e61196d7
+# ╠═a0bb564e-5c10-4d0e-8685-b4d5af6bbed2
+# ╠═624d2477-c19a-49c8-888d-23a580b63842
 # ╠═8b63e2b6-25e1-40cf-beb6-dc74d930806e
 # ╠═b57bc814-c397-450e-97c9-e3a0a84c03f7
-# ╠═bcebefc3-d63e-4340-a944-63fe273356b9
-# ╠═6c53c6b9-f870-4fce-8302-093c9ae74e0f
+# ╟─bcebefc3-d63e-4340-a944-63fe273356b9
+# ╟─6c53c6b9-f870-4fce-8302-093c9ae74e0f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

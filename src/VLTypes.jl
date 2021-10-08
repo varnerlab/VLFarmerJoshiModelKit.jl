@@ -12,6 +12,8 @@ mutable struct VLAgentModel <: VLAbstractAgentModel
     agent_trade_logic::Function
     agent_update_logic::Function
 
+    # default inner constructor -
+    VLAgentModel() = new()
 end
 
 mutable struct VLGameWorld <: VLAbstractGameWorld
@@ -22,8 +24,8 @@ mutable struct VLGameWorld <: VLAbstractGameWorld
     number_of_iterations::Int64
     exchange_logic::Function
 
+    # default inner constructor
     VLGameWorld() = new()
-
 end
 
 struct VLOrderModel <: VLAbstractOrderModel

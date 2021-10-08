@@ -11,5 +11,6 @@ using UUIDs
 # load my codes -
 include(joinpath(_PATH_TO_SRC, "VLTypes.jl"))
 include(joinpath(_PATH_TO_SRC, "VLDefaultExchangeLogic.jl"))
+include(joinpath(_PATH_TO_SRC, "VLDefaultAgentLogic.jl"))
 include(joinpath(_PATH_TO_SRC, "VLGameEngine.jl"))
 include(joinpath(_PATH_TO_SRC, "VLFactory.jl"))
