@@ -49,11 +49,13 @@ function build(type::Type{VLGameWorld}; kwargs...)
         number_of_iterations = get(args, :number_of_iterations, 100)
         number_of_assets = get(args, :number_of_assets, 1)
         exchange_logic = get(args, :market_exchange_logic, _default_exchange_logic)
-        
-        # Create a blank game world -
+        liquidity_parameter_array = get(args, :liquidity_parameter_array, ones(number_of_assets))
+
+        # Create world array -
         game_world = VLGameWorld()
         game_world.number_of_iterations = number_of_iterations
         game_world.exchange_logic = exchange_logic
+        game_world.liquidity_parameter_array = liquidity_parameter_array
         game_world.asset_price_array = zeros(number_of_iterations, number_of_assets)
 
         # return -

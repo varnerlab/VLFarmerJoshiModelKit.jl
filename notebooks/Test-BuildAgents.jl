@@ -77,6 +77,10 @@ begin
 	my_agent_array
 end
 
+# ╔═╡ db7b8487-2467-47ad-80b0-413574d02a38
+# finally, update the game world, attach the agents that live in the game world -
+game_world.agent_array = my_agent_array
+
 # ╔═╡ 6c53c6b9-f870-4fce-8302-093c9ae74e0f
 html"""
 <style>
@@ -136,6 +140,7 @@ version = "1.0.2"
 # ╠═624d2477-c19a-49c8-888d-23a580b63842
 # ╠═8b63e2b6-25e1-40cf-beb6-dc74d930806e
 # ╠═b57bc814-c397-450e-97c9-e3a0a84c03f7
+# ╠═db7b8487-2467-47ad-80b0-413574d02a38
 # ╟─bcebefc3-d63e-4340-a944-63fe273356b9
 # ╟─6c53c6b9-f870-4fce-8302-093c9ae74e0f
 # ╟─00000000-0000-0000-0000-000000000001
