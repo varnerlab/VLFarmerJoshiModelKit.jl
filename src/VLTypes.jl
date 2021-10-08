@@ -2,13 +2,9 @@ abstract type VLAbstractAgentModel end
 abstract type VLAbstractGameWorld end
 abstract type VLAbstractOrderModel end
 
-# what actions are we going to take?
-@enum Action BUY SELL HOLD
-𝒜 = [BUY::Action = 1, SELL::Action = -1, HOLD::Action = 0]
-
-# what are the different types of orders?
-@enum Order CANCEL MARKET LIMIT
-𝒪 = [CANCEL::Order = 0, MARKET::Order = 1, LIMIT::Order = 2]
+# setup enum for actions and orders -
+@enum ActionType BUY=1 SELL=-1 HOLD=0       # what actions are we going to take?
+@enum OrderType CANCEL=0 MARKET=1 LIMIT=2   # what are the different types of orders?
 
 # setup agent type -
 mutable struct VLAgentModel <: VLAbstractAgentModel
@@ -33,7 +29,7 @@ mutable struct VLGameWorld <: VLAbstractGameWorld
     number_of_iterations::Int64
     exchange_logic::Function
 
-    # default inner constructor
+    # constructor - 
     VLGameWorld() = new()
 end
 
@@ -41,12 +37,16 @@ struct VLOrderModel <: VLAbstractOrderModel
 
     # data -
     asset_index::Int64
-    action::Action
-    order::Order
+    action::ActionType
+    order_type::OrderType
     quantity::Int64
     price::Float64
     agent_id::UUID
     order_id::UUID
+
+    # constructor -
+    VLOrderModel(asset_index, action, order_type, quantity, price, agent_id) = new(asset_index, action, order_type, 
+        quantity, price, agent_id, uuid4())
 end
 
 struct VLMarketSimulationResult
