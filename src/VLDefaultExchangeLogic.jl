@@ -67,7 +67,6 @@ function _default_exchange_logic(iteration_index::Int64, game_world::VLGameWorld
             
             # update -
             agent_model.agent_update_logic(agent_model, order_model, new_asset_price_array, iteration_index)
-
         end
 
         # return -
