@@ -12,13 +12,17 @@ function _default_agent_update_logic!(agent::VLAgentModel, order::VLOrderModel, 
 
         # update the position array -
         current_position = agent.agent_position_array[iteration_index - 1, asset_index]
-        @show (agent.agent_position_array, (iteration_index - 1), asset_index, current_position)
+        𝒪 = 0
         if (order_action == 1)
-            new_agent_position_array[iteration_index, asset_index] = current_position + order_quantity
+            𝒪 = current_position + order_quantity
         elseif (order_action == -1)
-            new_agent_position_array[iteration_index, asset_index] = current_position - order_quantity
+            𝒪 = current_position + order_quantity
         else
-            new_agent_position_array[iteration_index, asset_index] = current_position
+            𝒪 = current_position
+        end
+
+        if (𝒪 >= 0)
+            new_agent_position_array[iteration_index, asset_index] = 𝒪
         end
 
         # update -

@@ -38,7 +38,8 @@ function my_technical_agent_trade_logic(agent_model, asset_price_array, iteratio
 		local_asset_index = asset_index
     	action = (Δω < 0) ? -1 : 1
     	order_type = 1
-    	quantity = abs(Δω)
+    	# quantity = abs(Δω)
+        quantity = 2
     	price = current_price
     	agent_id = agent_model.agent_id
 		order_model = VLOrderModel(local_asset_index, action, order_type, quantity, price, agent_id);	

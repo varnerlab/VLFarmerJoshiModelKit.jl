@@ -35,6 +35,8 @@ function run(world::VLGameWorld)::VLMarketSimulationResult
             # ok, so let's post the desired trades to the exchange -> and get the exachange output 
             asset_price_array = world.exchange_logic(iteration_index, world, agent_desired_orders_array, asset_price_array)
 
+            @show asset_price_array
+
             # clean-up for next iteration -
             empty!(agent_desired_orders_array)
         end

@@ -53,12 +53,10 @@ function _default_exchange_logic!(iteration_index::Int64, game_world::VLGameWorl
         # generate total order for each asset -
         total_order_quantity = sum(order_book, dims=2)
 
-        @show total_order_quantity
-
         # update the price for each asset -
-        new_asset_price_array = similar(current_asset_price_array)
+        new_asset_price_array = copy(current_asset_price_array)
         for asset_index = 1:number_of_assets
-            current_price = current_asset_price_array[iteration_index, asset_index]
+            current_price = current_asset_price_array[iteration_index - 1, asset_index]
             new_asset_price_array[iteration_index, asset_index] = current_price + (1 / λ[asset_index]) * total_order_quantity[asset_index]
         end
 
@@ -70,11 +68,8 @@ function _default_exchange_logic!(iteration_index::Int64, game_world::VLGameWorl
             
             # update -
             agent_model.agent_update_logic(agent_model, order_model, new_asset_price_array, iteration_index)
-
-            @show agent_model
         end
 
-        # return -
         return new_asset_price_array
     catch error
         throw(error)
