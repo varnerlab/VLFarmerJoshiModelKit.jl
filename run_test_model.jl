@@ -38,7 +38,7 @@ function my_technical_agent_trade_logic(agent_model, asset_price_array, iteratio
 		local_asset_index = asset_index
     	action = (Δω < 0) ? -1 : 1
     	order_type = 1
-    	quantity = 10
+    	quantity = abs(Δω)
     	price = current_price
     	agent_id = agent_model.agent_id
 		order_model = VLOrderModel(local_asset_index, action, order_type, quantity, price, agent_id);	
@@ -50,7 +50,7 @@ function my_technical_agent_trade_logic(agent_model, asset_price_array, iteratio
 end
 
 # build the game world -
-number_of_iterations = 3
+number_of_iterations = 20
 number_of_agents = 1
 number_of_assets = 2
 game_world = build(VLGameWorld; number_of_iterations=number_of_iterations, number_of_assets=number_of_assets);
