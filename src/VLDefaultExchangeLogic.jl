@@ -1,4 +1,4 @@
-function _default_exchange_logic(iteration_index::Int64, game_world::VLGameWorld, 
+function _default_exchange_logic!(iteration_index::Int64, game_world::VLGameWorld, 
     order_array::Array{VLOrderModel,1}, current_asset_price_array::Array{Float64,2})::Array{Float64,2}
 
     try
@@ -8,7 +8,7 @@ function _default_exchange_logic(iteration_index::Int64, game_world::VLGameWorld
         number_of_assets = size(current_asset_price_array, 2)
         λ = game_world.liquidity_parameter_array
         number_of_orders = length(order_array)
-        order_book = Array{Int64,2}(undef, number_of_assets, number_of_orders)
+        order_book = zeros(Int64, number_of_assets, number_of_orders)
 
         # build agent table -
         agent_table = Dict{UUID,VLAgentModel}()
@@ -37,17 +37,18 @@ function _default_exchange_logic(iteration_index::Int64, game_world::VLGameWorld
             order_model = order_array[order_index]
             asset_index = order_model.asset_index   # what asset index is this order?
             order_quantity = order_model.quantity   # what is the order quantity?
-            order_action = order_model.action       # what is the oder action?
+            order_action = order_model.action       # what is the order action?
 
             # add order to the order book for this asset -
-            if (order_action == BUY)
+            if (order_action == 1)
                 order_book[asset_index, order_index] = order_quantity
-            elseif (order_action == SELL)
+            elseif (order_action == -1)
                 order_book[asset_index, order_index] = -1 * order_quantity
             else
                 order_book[asset_index, order_index] = 0
             end
         end
+
 
         # generate total order for each asset -
         total_order_quantity = sum(order_book, dims=2)
@@ -67,6 +68,8 @@ function _default_exchange_logic(iteration_index::Int64, game_world::VLGameWorld
             
             # update -
             agent_model.agent_update_logic(agent_model, order_model, new_asset_price_array, iteration_index)
+
+            @show agent_model
         end
 
         # return -

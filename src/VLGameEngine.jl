@@ -15,7 +15,7 @@ function run(world::VLGameWorld)::VLMarketSimulationResult
         agent_desired_orders_array = Array{VLOrderModel,1}()
 
         # main game loop -
-        for iteration_index = 1:number_of_iterations
+        for iteration_index = 2:number_of_iterations
             
             # for each agent, we need to pass the current price array to the logic function -
             for agent_index = 1:number_of_agents

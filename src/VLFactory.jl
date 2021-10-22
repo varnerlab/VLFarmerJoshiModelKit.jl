@@ -7,7 +7,7 @@ function build(type::Type{VLAgentModel}; kwargs...)
 
         # setup default values for the key words args - 
         agent_trade_logic = get(args, :agent_trade_logic, _default_agent_trade_logic)
-        agent_update_logic = get(args, :agent_update_logic, _default_agent_update_logic)
+        agent_update_logic = get(args, :agent_update_logic, _default_agent_update_logic!)
         number_of_iterations = get(args, :number_of_iterations, 100)
         number_of_assets = get(args, :number_of_assets, 1)
         wealth = get(args, :agent_wealth, 1000.0)
@@ -48,15 +48,15 @@ function build(type::Type{VLGameWorld}; kwargs...)
         # check for defaults -
         number_of_iterations = get(args, :number_of_iterations, 100)
         number_of_assets = get(args, :number_of_assets, 1)
-        exchange_logic = get(args, :market_exchange_logic, _default_exchange_logic)
-        liquidity_parameter_array = get(args, :liquidity_parameter_array, ones(number_of_assets))
+        exchange_logic = get(args, :market_exchange_logic, _default_exchange_logic!)
+        liquidity_parameter_array = get(args, :liquidity_parameter_array, 0.01 * ones(number_of_assets))
 
         # Create world array -
         game_world = VLGameWorld()
         game_world.number_of_iterations = number_of_iterations
         game_world.exchange_logic = exchange_logic
         game_world.liquidity_parameter_array = liquidity_parameter_array
-        game_world.asset_price_array = zeros(number_of_iterations, number_of_assets)
+        game_world.asset_price_array = ones(number_of_iterations, number_of_assets)
 
         # return -
         return game_world

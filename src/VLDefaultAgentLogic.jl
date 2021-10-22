@@ -1,4 +1,4 @@
-function _default_agent_update_logic(agent::VLAgentModel, order::VLOrderModel, price_array::Array{Float64,2}, iteration_index::Int64)
+function _default_agent_update_logic!(agent::VLAgentModel, order::VLOrderModel, price_array::Array{Float64,2}, iteration_index::Int64)
 
     try
         
@@ -8,22 +8,22 @@ function _default_agent_update_logic(agent::VLAgentModel, order::VLOrderModel, p
         asset_index = order.asset_index                   # what asset was associated with this order 
         
         # get stuff the agent -
-        agent_position_array = agent.agent_position_array
+        new_agent_position_array = copy(agent.agent_position_array)
 
         # update the position array -
-        current_position = agent_position_array[iteration_index, asset_index]
-        new_position = 0
-        if (order_action == BUY)
-            new_position = current_position + order_quantity
-        elseif (order_action == SELL)
-            new_position = current_position - order_quantity
+        current_position = agent.agent_position_array[iteration_index - 1, asset_index]
+        @show (agent.agent_position_array, (iteration_index - 1), asset_index, current_position)
+        if (order_action == 1)
+            new_agent_position_array[iteration_index, asset_index] = current_position + order_quantity
+        elseif (order_action == -1)
+            new_agent_position_array[iteration_index, asset_index] = current_position - order_quantity
         else
-            new_position = current_position
+            new_agent_position_array[iteration_index, asset_index] = current_position
         end
-        agent_position_array[iteration_index, asset_index] = new_position
 
         # update -
-        agent.agent_position_array = agent_position_array
+        agent.agent_position_array = new_agent_position_array
+
     catch error
         throw(error)
     end
