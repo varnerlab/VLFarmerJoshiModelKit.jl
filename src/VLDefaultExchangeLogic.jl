@@ -5,7 +5,7 @@ function _default_exchange_logic(iteration_index::Int64, game_world::VLGameWorld
 
         # initialize -
         agent_array = game_world.agent_array
-        number_of_assets = game_world.number_of_assets
+        number_of_assets = size(current_asset_price_array, 2)
         λ = game_world.liquidity_parameter_array
         number_of_orders = length(order_array)
         order_book = Array{Int64,2}(undef, number_of_assets, number_of_orders)

@@ -1,4 +1,4 @@
-function _default_agent_update_logic(agent::VLAgentModel, order::VLOrderModel, price_array::Array{Float64,1}, iteration_index::Int64)
+function _default_agent_update_logic(agent::VLAgentModel, order::VLOrderModel, price_array::Array{Float64,2}, iteration_index::Int64)
 
     try
         
@@ -32,7 +32,6 @@ end
 function _default_agent_trade_logic()
     
     try
-
 
     catch error
         throw(error)

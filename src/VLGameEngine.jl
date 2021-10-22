@@ -25,7 +25,7 @@ function run(world::VLGameWorld)::VLMarketSimulationResult
             
                 # what is the desired position size in the next time step?
                 # desired_position_size_array: number of assets x 1 array 
-                tmp_desired_order_array = agent_model.agent_trade_logic(agent_model, asset_price_array)
+                tmp_desired_order_array = agent_model.agent_trade_logic(agent_model, asset_price_array, iteration_index)
                 for asset_index = 1:number_of_assets
                     tmp_order = tmp_desired_order_array[asset_index]
                     push!(agent_desired_orders_array, tmp_order)
@@ -34,16 +34,9 @@ function run(world::VLGameWorld)::VLMarketSimulationResult
 
             # ok, so let's post the desired trades to the exchange -> and get the exachange output 
             asset_price_array = world.exchange_logic(iteration_index, world, agent_desired_orders_array, asset_price_array)
-            
-            # update the agents -
-            for agent_index = 1:number_of_agents
 
-                # update the agent -
-                agent_model = agent_array[agent_index]
-
-                # call the update function -
-                agent_model.agent_update_logic(iteration_index, agent_model)
-            end
+            # clean-up for next iteration -
+            empty!(agent_desired_orders_array)
         end
 
         # build result object -
